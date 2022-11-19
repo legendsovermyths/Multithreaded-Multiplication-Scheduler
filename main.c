@@ -7,55 +7,45 @@
 
 FILE *fptr;
 FILE *fptr2;
-int sz=3;
+int threads_t=9;
 int mat1[1000*1000];
 int mat2[1000*1000];
 int mat3[1000*1000];
+int dim1=4,dim2=6;
+int dim3=6,dim4=5;
 void *runner(void* arg)
 {
-    int j=atoi(arg);
-     for(int i=0;i<9;i++){
-        fscanf(fptr,"%d",&mat1[j*3+i]);
-        // printf("%d ",mat1[j*3+i]);
+     for(int i=0;i<dim1;i++){
+        for(int j=0;j<dim2;j++){
+         fscanf(fptr,"%d",&mat1[dim2*i+j]);
+      }
      }
 }
 void *runner2(void* arg)
 {
-    int j=atoi(arg);
-     for(int i=0;i<9;i++){
-        fscanf(fptr2,"%d",&mat2[j*3+i]);
-        // printf("%d ",mat2[j*3+i]);
+     for(int i=0;i<dim3;i++){
+      for(int j=0;j<dim4;j++){
+         fscanf(fptr2,"%d",&mat2[dim4*i+j]);
+      }
+       
      }
 }
-void *multiply_threading(void *args) {
+void *multithreading(void *args) {
   int thread_number = (uintptr_t)args;
-  const int n_elements = (sz*sz);
-  const int n_operations = n_elements / 4;
-  const int rest_operations = n_elements % 4;
-
-  int start_op, end_op;
-
-  if (thread_number == 0) {
-    // First thread does more job
-    start_op = n_operations * thread_number;
-    end_op = (n_operations * (thread_number + 1)) + rest_operations;
-  }
-  else {
-    start_op = n_operations * thread_number + rest_operations;
-    end_op = (n_operations * (thread_number + 1)) + rest_operations;
-  }
-
-  for (int op = start_op; op < end_op; ++op) {
-    const int row = op % sz;
-    const int col = op / sz;
-    int r = 0;
-    for (int i = 0; i < sz; ++i) {
-      const float e1 = mat1[row*sz+i];
-      const float e2 = mat2[i*sz+col];
-      r += e1 * e2;
+  int totalElements = (dim1*dim4);
+  int threadOperation = totalElements / threads_t, restOperations = totalElements % threads_t;
+  int st, ed;
+  if (thread_number == 0) st = threadOperation * thread_number,ed = (threadOperation * (thread_number + 1)) + restOperations;
+  else st = threadOperation * thread_number + restOperations,ed = (threadOperation * (thread_number + 1)) + restOperations;
+  printf("--%d %d",st,ed);
+  for (int k = st; k < ed; k++) {
+    int r = k / dim4, c = k % dim4;
+    int res = 0;
+    for (int i = 0; i < dim2; ++i) {
+      int ele1 = mat1[r*dim2+i],ele2 = mat2[i*dim4+c];
+      res += ele1 * ele2;
     }
-
-    mat3[row*sz+col] = r;
+    mat3[r*dim4+c] = res;
   }
 }
 
@@ -67,29 +57,45 @@ void P1(){
     int shid=shmget(spkey,sizeof(mat1),0666|IPC_CREAT);
     *mat1=*(int*)shmat(shid,NULL,0);
     for(int i=0;i<1;i++){
-        pthread_create(&threads[i],NULL,runner,(void*)&i);
+        pthread_create(&threads[i],NULL,runner,NULL);
         pthread_join(threads[i],NULL);
     }
     for(int i=0;i<1;i++){
-        pthread_create(&threads[i],NULL,runner2,(void*)&i);
+        pthread_create(&threads[i],NULL,runner2,NULL);
         pthread_join(threads[i],NULL);
     }
    
     
 }
 void P2(){
-    pthread_t threads[4];
-    int threads_count=4;
-  for (int i = 0; i < 4; ++i) {
-    pthread_create(&threads[i],NULL,multiply_threading,(void*)(uintptr_t)i);
+    pthread_t threads[threads_t];
+    int threads_count=threads_t;
+  for (int i = 0; i < threads_t; ++i) {
+    
+    pthread_create(&threads[i],NULL,multithreading,(void*)(uintptr_t)i);
+     pthread_join(threads[i],NULL);
   }
-  for (int i = 0; i < 4; ++i) {
-    pthread_join(threads[i],NULL);
+  for (int i = 0; i < threads_t; ++i) {
+   
   }
-  for(int i=0;i<sz;i++)
+  for(int i=0;i<dim1;i++)
   {
-    for(int j=0;j<sz;j++){
-        printf("%d ",mat3[i*sz+j]);
+    for(int j=0;j<dim2;j++){
+        printf("%d ",mat1[i*dim2+j]);
+    }
+    printf("\n");
+  }
+  for(int i=0;i<dim3;i++)
+  {
+    for(int j=0;j<dim4;j++){
+        printf("%d ",mat2[i*dim4+j]);
+    }
+    printf("\n");
+  }
+  for(int i=0;i<dim1;i++)
+  {
+    for(int j=0;j<dim4;j++){
+        printf("%d ",mat3[i*dim4+j]);
     }
     printf("\n");
   }
