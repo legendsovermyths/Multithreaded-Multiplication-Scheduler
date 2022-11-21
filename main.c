@@ -4,10 +4,11 @@
 #include <stdio.h>
 #include<pthread.h>
 #include <stdint.h>
-
+#include<sys/time.h>
+ 
 FILE *fptr;
 FILE *fptr2;
-int threads_t=9;
+int threads_t=1;
 int mat1[1000*1000];
 int mat2[1000*1000];
 int mat3[1000*1000];
@@ -37,7 +38,6 @@ void *multithreading(void *args) {
   int st, ed;
   if (thread_number == 0) st = threadOperation * thread_number,ed = (threadOperation * (thread_number + 1)) + restOperations;
   else st = threadOperation * thread_number + restOperations,ed = (threadOperation * (thread_number + 1)) + restOperations;
-  printf("--%d %d",st,ed);
   for (int k = st; k < ed; k++) {
     int r = k / dim4, c = k % dim4;
     int res = 0;
@@ -48,14 +48,15 @@ void *multithreading(void *args) {
     mat3[r*dim4+c] = res;
   }
 }
-
+ 
 void P1(){
      pthread_t threads[1];
     key_t spkey=ftok("osproject",65);
-    fptr = fopen("in1.txt","r");
-    fptr2 = fopen("in2.txt","r");
+    key_t spkey2=ftok("osproject2",65);
     int shid=shmget(spkey,sizeof(mat1),0666|IPC_CREAT);
+    int shid2=shmget(spkey2,sizeof(mat2),0666|IPC_CREAT);
     *mat1=*(int*)shmat(shid,NULL,0);
+    *mat2=*(int*)shmat(shid2,NULL,0);
     for(int i=0;i<1;i++){
         pthread_create(&threads[i],NULL,runner,NULL);
         pthread_join(threads[i],NULL);
@@ -70,13 +71,22 @@ void P1(){
 void P2(){
     pthread_t threads[threads_t];
     int threads_count=threads_t;
+ 
+struct timespec start_time,stop_time;
+clock_gettime(CLOCK_MONOTONIC_RAW,&start_time);
+ 
+ 
   for (int i = 0; i < threads_t; ++i) {
     
     pthread_create(&threads[i],NULL,multithreading,(void*)(uintptr_t)i);
-     pthread_join(threads[i],NULL);
   }
+ 
+  clock_gettime(CLOCK_MONOTONIC_RAW,&stop_time);
+ 
+  uint64_t secs = (double)(stop_time.tv_nsec - start_time.tv_nsec) / 1000000000 + (double)(stop_time.tv_nsec - start_time.tv_nsec);
+  printf("time taken: %lu\n",secs);
   for (int i = 0; i < threads_t; ++i) {
-   
+   pthread_join(threads[i],NULL);
   }
   for(int i=0;i<dim1;i++)
   {
@@ -101,6 +111,8 @@ void P2(){
   }
 }
 int main(){
+  fptr = fopen("in1.txt","r");
+  fptr2 = fopen("in2.txt","r");
     P1();
     P2();
 }
