@@ -8,7 +8,7 @@
  
 FILE *fptr;
 FILE *fptr2;
-int threads_t=1;
+int threads_t=2;
 int mat1[1000*1000];
 int mat2[1000*1000];
 int mat3[1000*1000];
@@ -88,20 +88,20 @@ clock_gettime(CLOCK_MONOTONIC_RAW,&start_time);
   for (int i = 0; i < threads_t; ++i) {
    pthread_join(threads[i],NULL);
   }
-  for(int i=0;i<dim1;i++)
-  {
-    for(int j=0;j<dim2;j++){
-        printf("%d ",mat1[i*dim2+j]);
-    }
-    printf("\n");
-  }
-  for(int i=0;i<dim3;i++)
-  {
-    for(int j=0;j<dim4;j++){
-        printf("%d ",mat2[i*dim4+j]);
-    }
-    printf("\n");
-  }
+  // for(int i=0;i<dim1;i++)
+  // {
+  //   for(int j=0;j<dim2;j++){
+  //       printf("%d ",mat1[i*dim2+j]);
+  //   }
+  //   printf("\n");
+  // }
+  // for(int i=0;i<dim3;i++)
+  // {
+  //   for(int j=0;j<dim4;j++){
+  //       printf("%d ",mat2[i*dim4+j]);
+  //   }
+  //   printf("\n");
+  // }
   for(int i=0;i<dim1;i++)
   {
     for(int j=0;j<dim4;j++){
@@ -110,9 +110,14 @@ clock_gettime(CLOCK_MONOTONIC_RAW,&start_time);
     printf("\n");
   }
 }
-int main(){
-  fptr = fopen("in1.txt","r");
-  fptr2 = fopen("in2.txt","r");
+int main(int argc, char *argv[]){
+  fptr = fopen("matrix1.txt","r");
+  fptr2 = fopen("matrix2.txt","r");
+  dim1=atoi(argv[1]);
+  dim2=atoi(argv[1]);
+  dim3=atoi(argv[1]);
+  dim4=atoi(argv[1]);
+  printf("%d %d %d %d",dim1,dim2,dim3,dim4);
     P1();
     P2();
 }
