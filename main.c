@@ -8,12 +8,12 @@
  
 FILE *fptr;
 FILE *fptr2;
-int threads_t=2;
+FILE *fpt;
+int threads_t=16;
 int mat1[1000*1000];
 int mat2[1000*1000];
 int mat3[1000*1000];
-int dim1=4,dim2=6;
-int dim3=6,dim4=5;
+int dim1,dim2,dim3,dim4;
 void *runner(void* arg)
 {
      for(int i=0;i<dim1;i++){
@@ -81,13 +81,13 @@ clock_gettime(CLOCK_MONOTONIC_RAW,&start_time);
     pthread_create(&threads[i],NULL,multithreading,(void*)(uintptr_t)i);
   }
  
-  clock_gettime(CLOCK_MONOTONIC_RAW,&stop_time);
- 
-  uint64_t secs = (double)(stop_time.tv_nsec - start_time.tv_nsec) / 1000000000 + (double)(stop_time.tv_nsec - start_time.tv_nsec);
-  printf("time taken: %lu\n",secs);
   for (int i = 0; i < threads_t; ++i) {
    pthread_join(threads[i],NULL);
   }
+  clock_gettime(CLOCK_MONOTONIC_RAW,&stop_time);
+  uint64_t secs = (double)(stop_time.tv_nsec - start_time.tv_nsec) / 1000000000 + (double)(stop_time.tv_nsec - start_time.tv_nsec);
+  printf("time taken: %lu\n",secs);
+  fprintf(fpt,"%d, %lu\n", dim1,secs);
   // for(int i=0;i<dim1;i++)
   // {
   //   for(int j=0;j<dim2;j++){
@@ -102,15 +102,17 @@ clock_gettime(CLOCK_MONOTONIC_RAW,&start_time);
   //   }
   //   printf("\n");
   // }
-  for(int i=0;i<dim1;i++)
-  {
-    for(int j=0;j<dim4;j++){
-        printf("%d ",mat3[i*dim4+j]);
-    }
-    printf("\n");
-  }
+  // for(int i=0;i<dim1;i++)
+  // {
+  //   for(int j=0;j<dim4;j++){
+  //       printf("%d ",mat3[i*dim4+j]);
+  //   }
+  //   printf("\n");
+  // }
 }
 int main(int argc, char *argv[]){
+  fpt = fopen("Threads16.csv", "w+");
+  fprintf(fpt,"Size, Time\n");
   fptr = fopen("matrix1.txt","r");
   fptr2 = fopen("matrix2.txt","r");
   dim1=atoi(argv[1]);
@@ -119,5 +121,6 @@ int main(int argc, char *argv[]){
   dim4=atoi(argv[1]);
   printf("%d %d %d %d",dim1,dim2,dim3,dim4);
     P1();
+    
     P2();
 }
