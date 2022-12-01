@@ -1,1 +1,1 @@
-# OS_projct
+# Matrix Multiplication with multi-threading
