@@ -57,7 +57,7 @@ plot_graph(df_path=r'../csvfiles/turnaroundTime_2ms.csv',
            img_path=r'../images/turnaroundTime2ms.jpg')
 
 plot_graph(df_path=r'../csvfiles/waitingTime_1ms.csv',
-           title="Turnaround Time (quanta = 1ms) vs. Size of Matrix",
+           title="Waiting Time (quanta = 1ms) vs. Size of Matrix",
            xlabel="Size of Matrix",
            ylabel="Time of Execution (ns)",
            xdata='Size',
@@ -66,7 +66,7 @@ plot_graph(df_path=r'../csvfiles/waitingTime_1ms.csv',
            img_path=r'../images/waitingTime1ms.jpg')
 
 plot_graph(df_path=r'../csvfiles/waitingTime_2ms.csv',
-           title="Turnaround Time (quanta = 2ms) vs. Size of Matrix",
+           title="Waiting Time (quanta = 2ms) vs. Size of Matrix",
            xlabel="Size of Matrix",
            ylabel="Time of Execution (ns)",
            xdata='Size',
