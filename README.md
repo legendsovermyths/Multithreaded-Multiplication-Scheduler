@@ -2,24 +2,27 @@
 
 ## Contents
 
-[1 Introduction](#_page2_x81.64_y106.36) 
+1. Introduction
 
-[2 Reading matrix with multi-threading](#_page2_x81.64_y266.06)
+2. Reading matrix with multi-threading
 
-[2.1 Handling Shared Memory ](#_page2_x81.64_y359.88)
+   2.1 Handling Shared Memory
 
-[3 Multiplication with multi-threading](#_page2_x81.64_y446.89) 
+3. Multiplication with multi-threading
 
-[4 Scheduling](#_page3_x81.64_y106.36)
+4. Scheduling
 
-[5 Results](#_page3_x81.64_y485.40)
+5. Results
 
-1. [Reading ](#_page3_x81.64_y516.17)
-2. [Multiplication ](#_page4_x81.64_y579.49)
-3. [Turnaround Time .](#_page6_x81.64_y106.36)
-4. [Waiting Time ](#_page8_x81.64_y578.76)
+    5.1 Reading
+  
+    5.2 Multiplication
+  
+    5.3 Turnaround Time
+  
+    5.4 Waiting Time
 
-[References](#_page10_x81.64_y99.13)
+6. References
 
 ## 1  Introduction
 
