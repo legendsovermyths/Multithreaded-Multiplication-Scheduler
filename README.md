@@ -24,7 +24,7 @@
 
 6. References
 
-## 1  Introduction
+## 1.  Introduction
 
 Matrix multiplication is a requirement in many practical applications today. Opti- mising the speed of multiplication of arbitrarily large matrices is crucial for solving many real-life problems, such as those of AC networks in electronics and also weather forecasting.
 
@@ -33,7 +33,7 @@ It can be observed that the reading of rows and columns and the multiplication o
 In this project, we aim to study the performance of a round-robin scheduler with different time quanta.
 
 
-## 2  Reading matrix with multi-threading
+## 2.  Reading matrix with multi-threading
 
 Depending on the dimension of the given matrix, each thread is assigned a particular number of rows and columns it has to read. The workload of reading the rows is divided equally among the threads available.
 
@@ -51,7 +51,7 @@ The following approach is taken in order to avoid race conditions:
 - For multiplication, each element of the resultant matrix is assigned an individual thread. If the resultant matrix has a thread equal to the number of elements, then each element gets one thread for its multiplication.
 
 
-## 4  Scheduling
+## 4.  Scheduling
 
 The Round Robin Scheduler alternates (in a fixed quantum of time 1ms or 2ms) between processes P and P . Two different system calls are used to achieve this are:
 
@@ -64,9 +64,9 @@ The Round Robin Scheduler alternates (in a fixed quantum of time 1ms or 2ms) bet
 
 Before scheduling a particular process, the scheduler checks if the process is completed by checking its corresponding flag value. If both the processes are done with their execution, i.e. the scheduler stops its execution (flag variables of both P1 and P2 are set to one).
 
-## 5  Results
+## 5.  Results
 
-### 1. Reading
+### 5.1 Reading
 
 From Figure [1 ](#_page4_x81.64_y99.13)we can observe that as the number of threads increases, we can observe a greater variation in reading performance, indicating that parallelization does not improve reading times; this can be explained by the fact that the overhead of creating threads and maintaining multiple file pointers and performing the required context switches is greater than the time saved by multi-threading.
 
@@ -75,7 +75,7 @@ From Figure [1 ](#_page4_x81.64_y99.13)we can observe that as the number of thre
 Figure 1: Performance for reading matrices
 
 
-### 2. Multiplication
+### 5.2 Multiplication
 
 From figure [2 ](#_page5_x81.64_y206.07)we can conclude that:
 
@@ -90,7 +90,7 @@ to those with lesser threads; for matrices larger than (700 × 700), the 1024 th
 Figure 2: Performance of multiplication
 
 
-### 3. Turnaround Time
+### 5.3 Turnaround Time
 
 From figures [3 ](#_page7_x81.64_y99.13)and [4 ](#_page8_x81.64_y99.13)it can be observed that:
 
@@ -106,7 +106,7 @@ Figure 3: Turnaround time with quanta = 1ms
 Figure 4: Turnaround time with time quanta = 2ms
 
 
-### 4. Waiting Time
+### 5.4 Waiting Time
 
 From figures [5 ](#_page9_x81.64_y152.77)and [6 ](#_page10_x81.64_y99.13)we can observe that:
 
@@ -121,6 +121,6 @@ Figure 5: Waiting time with quanta = 1ms
 
 Figure 6: Waiting time with quanta = 2ms
 
-## References
+## 6. References
 
 [1] All the code in this report has been programmed by us, and can be found in this [GitHub Repository.](https://github.com/legendsovermyths/Multithreaded-Multiplication-Scheduler)
