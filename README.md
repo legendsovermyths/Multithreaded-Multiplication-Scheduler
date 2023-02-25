@@ -68,7 +68,7 @@ Before scheduling a particular process, the scheduler checks if the process is c
 
 ### 5.1 Reading
 
-From Figure [1 ](#_page4_x81.64_y99.13)we can observe that as the number of threads increases, we can observe a greater variation in reading performance, indicating that parallelization does not improve reading times; this can be explained by the fact that the overhead of creating threads and maintaining multiple file pointers and performing the required context switches is greater than the time saved by multi-threading.
+From Figure 1 we can observe that as the number of threads increases, we can observe a greater variation in reading performance, indicating that parallelization does not improve reading times; this can be explained by the fact that the overhead of creating threads and maintaining multiple file pointers and performing the required context switches is greater than the time saved by multi-threading.
 
 ![](Aspose.Words.9222d7c2-1177-44ea-bab6-02317c0e2216.001.jpeg)
 
@@ -77,7 +77,7 @@ Figure 1: Performance for reading matrices
 
 ### 5.2 Multiplication
 
-From figure [2 ](#_page5_x81.64_y206.07)we can conclude that:
+From Figure 2 we can conclude that:
 
 - A single thread performs better for small matrix sizes, up to 200 × 200 ma- trices, implying that the overhead of creating new threads is higher than the performance boost due to parallelization at these sizes.
 - However, at larger sizes ( > (600 × 600)) the processes with the higher number of threads perform significantly better, agreeing with our hypothesis.
@@ -92,7 +92,7 @@ Figure 2: Performance of multiplication
 
 ### 5.3 Turnaround Time
 
-From figures [3 ](#_page7_x81.64_y99.13)and [4 ](#_page8_x81.64_y99.13)it can be observed that:
+From Figures 3 and 4 it can be observed that:
 
 - As matrix size increases, turnaround times for both scheduling schemes (with q = 1ms and 2ms) increase following the same pattern. This is due to the increased number of context switches and computations that have to be done for multiplication.
 - Note: The seemingly random peaks in the graph are due to the processor of our personal computers carrying out other tasks in the background.
@@ -108,7 +108,7 @@ Figure 4: Turnaround time with time quanta = 2ms
 
 ### 5.4 Waiting Time
 
-From figures [5 ](#_page9_x81.64_y152.77)and [6 ](#_page10_x81.64_y99.13)we can observe that:
+From Figures 5 and 6 we can observe that:
 
 - With increasing size of matrix, the waiting period for each process increases with periodic jumps, depending on the number of time quanta that it has to wait.
 - For q = 2ms, the jumps are larger than that for q = 1ms since the each waiting time is twice as long.
